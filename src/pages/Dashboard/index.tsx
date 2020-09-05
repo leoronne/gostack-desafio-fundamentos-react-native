@@ -9,17 +9,7 @@ import api from '../../services/api';
 
 import FloatingCart from '../../components/FloatingCart';
 
-import {
-  Container,
-  ProductContainer,
-  ProductImage,
-  ProductList,
-  Product,
-  ProductTitle,
-  PriceContainer,
-  ProductPrice,
-  ProductButton,
-} from './styles';
+import { Container, ProductContainer, ProductImage, ProductList, Product, ProductTitle, PriceContainer, ProductPrice, ProductButton } from './styles';
 
 interface Product {
   id: string;
@@ -35,14 +25,18 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadProducts(): Promise<void> {
-      // TODO
+      const response = await api.get('/products');
+
+      console.log(response.data);
+
+      setProducts(response.data);
     }
 
     loadProducts();
   }, []);
 
   function handleAddToCart(item: Product): void {
-    // TODO
+    addToCart(item);
   }
 
   return (
@@ -61,10 +55,7 @@ const Dashboard: React.FC = () => {
               <ProductTitle>{item.title}</ProductTitle>
               <PriceContainer>
                 <ProductPrice>{formatValue(item.price)}</ProductPrice>
-                <ProductButton
-                  testID={`add-to-cart-${item.id}`}
-                  onPress={() => handleAddToCart(item)}
-                >
+                <ProductButton testID={`add-to-cart-${item.id}`} onPress={() => handleAddToCart(item)}>
                   <FeatherIcon size={20} name="plus" color="#C4C4C4" />
                 </ProductButton>
               </PriceContainer>
